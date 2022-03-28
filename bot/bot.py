@@ -2,6 +2,7 @@ import asyncio
 from typing import Optional
 
 import discord
+import aiohttp
 from botcore.utils.extensions import walk_extensions
 from botcore.utils.logging import get_logger
 from botcore.utils.scheduling import create_task
@@ -18,6 +19,7 @@ class SirRobin(commands.Bot):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self._guild_available: Optional[asyncio.Event] = None
+        self.http_session: Optional[aiohttp.ClientSession] = None
 
     async def add_cog(self, cog: commands.Cog, **kwargs) -> None:
         """
