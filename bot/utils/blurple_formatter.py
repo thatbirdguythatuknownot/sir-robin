@@ -246,7 +246,9 @@ def unparse(node: ast.AST, nl_able: bool = False) -> str:
         op, values = node.op, node.values
 
         return f"{space(1)}{op_strs[type(op)]}{space(1)}".join(
-            f"{(parenthesize if precedences[type(value.op if isinstance(value, ast.BoolOp) else value)] <= precedences[type(op)] else unparse)(value)}"
+            parenthesize(value)
+            if precedences[type(value.op if isinstance(value, ast.BoolOp) else value)] <= precedences[type(op)]
+            else unparse(value)
             for value in values
         )
     if isinstance(node, ast.Break):
